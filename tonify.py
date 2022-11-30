@@ -13,8 +13,8 @@ def get_image(bs):
     img = open('gen.jpeg', 'wb')
     img.write(file_like)
     img.close()
-    EXE_PATH = r'chromedriver.exe' # EXE_PATH это путь до ранее загруженного нами файла chromedriver.exe
-    driver = webdriver.Chrome(executable_path=EXE_PATH)
+    #EXE_PATH = r'chromedriver.exe' # EXE_PATH это путь до ранее загруженного нами файла chromedriver.exe
+    driver = webdriver.Chrome()#executable_path=EXE_PATH)
     driver.get("https://toonify.photos")
 
     free_mode = driver.find_element(By.XPATH, '//*[@id="toonify-form"]/div/div/div[1]/div/div/div[6]/a')
