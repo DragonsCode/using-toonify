@@ -9,8 +9,7 @@ from tonify import get_image
 app = FastAPI()
 
 origins = [
-    "http://localhost:8080"
-    "http://localhost"
+    "*"
 ]
 
 app.add_middleware(
