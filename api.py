@@ -4,11 +4,9 @@ import logging
 
 from vkbottle import PhotoToAlbumUploader
 from vkbottle.user import User
-from vkbottle.bot import Bot
 
 from tonify import get_image
 
-#token = 'vk1.a.PdBxBthx3qG98nynYuoZb1fs0ns80iF_KAOfQDpAgIBQMD1zuC6iBheqpWH0YdoiwGkBeTzCoaiQS_xZmCcw5M_e7R7eiFdhquoceizjJdOYC7JzJaeZEn5Xn5ZgiRJnUht__phyFcRVViif9bDAbt9Q1YBKRZTi6CiWMPAg-EkY0FyD8qGV73ZRnvdkT3_N'
 token = 'vk1.a.bBk3fc7I4J3TFcBC-dQ_czyfx-GA4WX-cQb1jbVOu5DaO3tQ73lF3eR6BL10wmxfyZkM0blByrEYcRYFGlKwLSpA6jgZ9OSC6Qa5-V4maxgcsUe0RWldUZqndildOlMNCTJh1AqI6_hD73cQsKikjdDMVOdpY3X1jMwn-8FxBsZM0-dg5-DIyFeCCVtPRNen-rOJ8ojSqGjkp1_8QmFg2A'
 bot = User(token=token)
 
