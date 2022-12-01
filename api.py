@@ -29,7 +29,7 @@ app.add_middleware(
 @app.post("/photo")
 async def photo(filedata: str = Form(...)):
     image_as_bytes = str.encode(filedata)  # convert string to bytes
-    ok, b64, message = True, None, None #get_image(image_as_bytes)
+    ok, b64, message = get_image(image_as_bytes)
     photo = None
     # a = await bot.api.photos.edit_album(album_id=289036918, title='Мультики', description='🧐А как ты будешь выглядеть в мультике?\n✨Узнай тут -> https://vk.com/app51488933')
     # print(a.id)
