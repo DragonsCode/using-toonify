@@ -3,18 +3,16 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-import requests
 import base64
-from io import BytesIO
-from PIL import Image
+
 
 def get_image(bs):
     file_like = base64.b64decode((bs))
     img = open('gen.jpeg', 'wb')
     img.write(file_like)
     img.close()
-    #EXE_PATH = r'chromedriver.exe' # EXE_PATH это путь до ранее загруженного нами файла chromedriver.exe
-    driver = webdriver.Chrome()#executable_path=EXE_PATH)
+    EXE_PATH = r'chromedriver.exe' # EXE_PATH это путь до ранее загруженного нами файла chromedriver.exe
+    driver = webdriver.Chrome(executable_path=EXE_PATH)
     driver.get("https://toonify.photos")
 
     free_mode = driver.find_element(By.XPATH, '//*[@id="toonify-form"]/div/div/div[1]/div/div/div[6]/a')
@@ -34,7 +32,6 @@ def get_image(bs):
         element = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="toonify-form"]/div/div/div[2]/div/div[2]/div/a[1]'))
         )
-    finally:
         if element is not None:
             # element.click()
             # print('Downloaded!')
@@ -43,17 +40,21 @@ def get_image(bs):
             if a is not None:
                 b64 = a.split(',')[1]
                 # print(bs)
-                # file_like = base64.b64decode((b64))
-                # img = open('result.jpeg', 'wb')
-                # img.write(file_like)
-                # img.close()
+                file_like = base64.b64decode((b64))
+                img = open('result.jpeg', 'wb')
+                img.write(file_like)
+                img.close()
                 driver.close()
-                return b64
+                return True, b64, 'Success!'
             else:
-                print('No href attribute found')
+                driver.close()
+                return False, None, 'No href attribute found'
         else:
-            print('Cannot download!')
-    driver.close()
+            driver.close()
+            return False, None, 'Cannot download!'
+    except Exception as e:
+        driver.close()
+        return False, None, str(e)
 
 
 # with open("face.jpg", "rb") as image_file:
