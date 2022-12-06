@@ -8,9 +8,12 @@ from vkbottle.bot import Bot
 
 import base64
 
+import requests
+
 from tonify import get_image
 
-token = 'token'
+#token = 'vk1.a.PdBxBthx3qG98nynYuoZb1fs0ns80iF_KAOfQDpAgIBQMD1zuC6iBheqpWH0YdoiwGkBeTzCoaiQS_xZmCcw5M_e7R7eiFdhquoceizjJdOYC7JzJaeZEn5Xn5ZgiRJnUht__phyFcRVViif9bDAbt9Q1YBKRZTi6CiWMPAg-EkY0FyD8qGV73ZRnvdkT3_N'
+token = 'vk1.a.bBk3fc7I4J3TFcBC-dQ_czyfx-GA4WX-cQb1jbVOu5DaO3tQ73lF3eR6BL10wmxfyZkM0blByrEYcRYFGlKwLSpA6jgZ9OSC6Qa5-V4maxgcsUe0RWldUZqndildOlMNCTJh1AqI6_hD73cQsKikjdDMVOdpY3X1jMwn-8FxBsZM0-dg5-DIyFeCCVtPRNen-rOJ8ojSqGjkp1_8QmFg2A'
 bot = User(token=token)
 
 app = FastAPI()
@@ -44,7 +47,7 @@ async def photo(filedata: str = Form(...)):
     return {"ok": ok, "message": message, "photo": photo, 'base64': b64}
 
 @app.get("/photo_in_album")
-async def photo_in_album(token: str = Form(...), filedata: str = Form(...)):
+async def photo_in_album(url: str = Form(...), filedata: str = Form(...)):
     image_as_bytes = str.encode(filedata)  # convert string to bytes
     file_like = base64.b64decode((image_as_bytes))
 
@@ -52,31 +55,41 @@ async def photo_in_album(token: str = Form(...), filedata: str = Form(...)):
     img.write(file_like)
     img.close()
 
-    api = API(token=token)
-    a_id = 0
-    user_a = (await api.photos.get_albums()).items
-    print(user_a)
+    # a_id = 0
+    # user_a = (await api.photos.get_albums()).items
+    # print(user_a)
 
-    for i in user_a:
-        if i.title == "Мультики":
-            a_id = i.id
-            # await api.photos.delete_album(i.id)
-            break
+    # for i in user_a:
+    #     if i.title == "Мультики":
+    #         a_id = i.id
+    #         # await api.photos.delete_album(i.id)
+    #         break
     
-    if a_id == 0:
-        new_a = await api.photos.create_album(title='Мультики', description='🧐А как ты будешь выглядеть в мультике?\n✨Узнай тут -> https://vk.com/app51488933')
-        a_id = new_a.id
+    # if a_id == 0:
+    #     new_a = await api.photos.create_album(title='Мультики', description='🧐А как ты будешь выглядеть в мультике?\n✨Узнай тут -> https://vk.com/app51488933')
+    #     a_id = new_a.id
     
-    photo_upd = PhotoToAlbumUploader(api)
-    photo = await photo_upd.upload(album_id=a_id, paths_like='to_album.jpeg')
-     
-    return {"ok": True, "message": "Success!"}
+    # photo_upd = PhotoToAlbumUploader(api)
+    # photo = await photo_upd.upload(album_id=a_id, paths_like='to_album.jpeg')
+    r = requests.post(url=url, files={'file1': open('to_album.jpeg', 'rb')}).json()
+    return r #{"ok": True, "message": "Success!"}
 
 @app.post("/set_partners")
 async def set_partners(partners):
     try:
         txt = open('partners.txt', 'w')
         txt.write(str(partners))
+        txt.close
+    except Exception as e:
+        logging.info(e)
+        return {"ok": False, "message": str(e)}
+    return {"ok": True, "message": "Successfully set"}
+
+@app.post("/set_links")
+async def set_partners(links):
+    try:
+        txt = open('links.txt', 'w')
+        txt.write(str(links))
         txt.close
     except Exception as e:
         logging.info(e)
