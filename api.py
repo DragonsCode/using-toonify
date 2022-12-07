@@ -40,8 +40,11 @@ async def photo(filedata: str = Form(...)):
     # print(a.id)
     # print(a.dict())
     if ok:
+        txt = open('links.txt', 'r')
+        links = txt.read()
+        txt.close()
         photo_upd = PhotoToAlbumUploader(bot.api)
-        photo = await photo_upd.upload(album_id=289036918, paths_like='result.jpeg', caption='🧐 А как ты будешь выглядеть в мультике?\n✨Узнай тут -> https://vk.com/app51488933')
+        photo = await photo_upd.upload(album_id=289036918, paths_like='result.jpeg', caption=f'🧐 А как ты будешь выглядеть в мультике?\n✨Узнай тут -> {links}')
         #await bot.api.wall.post(attachments=[photo])
     return {"ok": ok, "message": message, "photo": photo, 'base64': b64}
 
