@@ -19,8 +19,7 @@ bot = User(token=token)
 app = FastAPI()
 
 origins = [
-    "http://localhost:8080"
-    "http://localhost"
+    "*"
 ]
 
 app.add_middleware(
@@ -42,7 +41,7 @@ async def photo(filedata: str = Form(...)):
     # print(a.dict())
     if ok:
         photo_upd = PhotoToAlbumUploader(bot.api)
-        photo = await photo_upd.upload(album_id=289036918, paths_like='result.jpeg')
+        photo = await photo_upd.upload(album_id=289036918, paths_like='result.jpeg', caption='🧐 А как ты будешь выглядеть в мультике?\n✨Узнай тут -> https://vk.com/app51488933')
         #await bot.api.wall.post(attachments=[photo])
     return {"ok": ok, "message": message, "photo": photo, 'base64': b64}
 
