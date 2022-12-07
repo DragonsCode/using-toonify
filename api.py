@@ -85,7 +85,7 @@ async def set_partners(partners):
     return {"ok": True, "message": "Successfully set"}
 
 @app.post("/set_links")
-async def set_partners(links):
+async def set_links(links):
     try:
         txt = open('links.txt', 'w')
         txt.write(str(links))
@@ -106,3 +106,15 @@ async def get_partners():
         logging.info(e)
         return {"ok": False, "message": str(e)}
     return {"ok": True, "message": "Successfully retrieved", "partners": partners}
+
+@app.get("/get_links")
+async def get_links():
+    links = None
+    try:
+        txt = open('links.txt', 'r')
+        links = txt.read()
+        txt.close()
+    except Exception as e:
+        logging.info(e)
+        return {"ok": False, "message": str(e)}
+    return {"ok": True, "message": "Successfully retrieved", "links": links}
